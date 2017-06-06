@@ -20,12 +20,11 @@
             	rad = Math.atan2(cursor[1] - center[1], cursor[0] - center[0]);
 
 				rad += Math.PI / 2;
-
 			return rad;
 		};
 
 		this.get_center_position=function(currentTarget){
-			var rect = currentTarget.parentNode.getBoundingClientRect();
+			var rect = this._options.$parentContainer[0].getBoundingClientRect();
 			return [
 					rect.left + (rect.right - rect.left) / 2,
 					rect.top + (rect.bottom - rect.top) / 2
@@ -52,7 +51,7 @@
 
 		this.getTick = function(){
 			return this._options._ticks[this._counter] || 0;
-		}
+		};
 	}
 
 
@@ -88,23 +87,21 @@
 
 	};
 
-	slider_core_helpers.prototype.update_rotation = function(e){
+	slider_core_helpers.prototype.update_rotation = function(cursor){
 		var radius = this._options.radius,
-			cursor = this.get_mouse_cursor(e),
-			_slider = e.currentTarget;
-
-        var atan = Math.atan2(cursor[0]-radius, cursor[1]-radius);
+			atan = Math.atan2(cursor[0]-radius, cursor[1]-radius);
         this._options.deg = -atan/(Math.PI/180) + 180; // final (0-360 positive) degrees from mouse position 
        	this.set_slider_position();
        
-       this.set_default_point(_slider);
+       this.set_default_point();
 	};
 
-	slider_core_helpers.prototype.set_default_point = function(_slider, CB){
-		var pos =this.handle_position();
+	slider_core_helpers.prototype.set_default_point = function(CB){
+		var pos =this.handle_position(),
+			_slider = this._options.$parentContainer.find('div#rotationSlider');
         // set the position
         for(var prop in pos){
-        	_slider.style[prop] = pos[prop];
+        	_slider.css(prop, pos[prop]);
         }
 
         (CB || function(){})();
@@ -144,9 +141,9 @@
 
 	slider_core_helpers.prototype.trigger = function(type, options){
 		(this._options.core[type] || function(){})(options);
-		var toolTipHTML = document.querySelector('div#rotationSliderDegrees span.tooltip_area');
+		var toolTipHTML = this._options.$parentContainer.find('span.tooltip_area');
 		if(toolTipHTML){
-			toolTipHTML.innerHTML = this._options.core.toolTip(this._options.core.$value);
+			toolTipHTML.html( this._options.core.toolTip(this._options.core.$value) );
 		}
 		return this;
 	};
@@ -155,8 +152,7 @@
 			var $parent = jQuery(element),
 				$container = jQuery('<div id="rotationSliderContainer"></div>'),
 				$slider = jQuery('<div id="rotationSlider"></div>'),
-				$degrees = jQuery('<div id="rotationSliderDegrees"><span class="tooltip_area"></span></div>');
-
+				$toolTip = jQuery('<div id="rotationSliderDegrees"><span class="tooltip_area"></span></div>');
 
 			var defaults = {
 				min:0,
@@ -185,9 +181,11 @@
 				_options.hasMaxValue = true;
 			}
 
+
 			// append the children
-			$parent.append(
-				$container.append($slider, $degrees)
+			$parent
+			.html(
+				$container.append($slider, $toolTip)
 			);
 
 			var helpers = new slider_core_helpers({
@@ -196,6 +194,7 @@
 				radius:$container.width()/2,
 				deg:0,
 				_ticks:[],
+				$parentContainer:$container,
 				core:_options
 			});
 
@@ -203,11 +202,14 @@
 		    	previous_value=null;
 
 		    helpers
-		    	.generateTicks(_options)
-		    	.set_default_point($slider[0], function(){
+		    	.set_default_point(function(){
 		    		helpers.trigger('onCreate', _options);
 		    	});
-
+			
+			/**
+			 * Bind to events to the slider
+			 * MouseDown or TouchStart EVENT
+			 */
 		    $slider
 		    .bind('mousedown',_handle_click)
 		    .bind('touchstart',_handle_click);
@@ -242,11 +244,11 @@
 		    }
 
 		    function _rotate(e) {
-
 		    	if(!helpers._dragStart) return;
 
-				var new_angle = helpers.get_mouse_angle(e);
-				var old_angle = previous_angle;
+				var new_angle = helpers.get_mouse_angle(e),
+					mouse_cursor = helpers.get_mouse_cursor(e),
+					old_angle = previous_angle;
 				previous_angle = new_angle;
 
 				var delta_angle = new_angle - old_angle;
@@ -266,7 +268,7 @@
 				_options.value = helpers.float_or_default(new_proposed_value, 0);
 				helpers.update_value();
 				previous_value = new_proposed_value;
-				helpers.update_rotation(e);
+				helpers.update_rotation(mouse_cursor);
 
 				var new_actual_value = _options.value;
 				if (old_actual_value !== new_actual_value) {
@@ -277,8 +279,8 @@
 			        }else{
 			        	_value = Math.round(new_actual_value * _options.division) * _options.step;
 			        }
-			        helpers.limitValue(_value);
 
+			        helpers.limitValue(_value);
 			        helpers.trigger('onDrag',_options.$value);
 		        }
 		        		        

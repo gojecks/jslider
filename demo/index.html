@@ -5,30 +5,69 @@
 		  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
 		  crossorigin="anonymous"></script>
+		  <script src="../src/core.jslider.js"></script>
+		  <link href="../src/core.jslider.css" rel="text/stylesheet" />
 		 <style type="text/css">
 			.wrapper{
 				padding-top: 10px;
 				width: 200px;
 				height: 200px;
 			}
+			#rotationSliderContainer { 
+			    position: relative;
+			    width: 100%;
+			    height: 100%;
+			    background: #FF7400;
+			    border-radius: 125px;
+			    margin: 0px auto;
+			    cursor: default;
+			}
+			#rotationSlider { 
+			    position: absolute;
+			    height: 20px;
+			    width: 20px;
+			    background: #A64B00;
+			    border-radius: 10px;
+			    cursor: pointer;
+			    z-index: 3;
+			}
+			#rotationSliderDegrees {
+			    position: absolute;
+			    width: 95%;
+			    height: 95%;
+			    border-radius: 125px;
+			    background-color: #fff;
+			    margin: 2.5%;
+			    font-size: 20px;
+			    color: #000;
+			    text-align: center;
+			    -moz-user-select: none; 
+			    -khtml-user-select: none; 
+			    -webkit-user-select: none; 
+			    -o-user-select: none;
+			    z-index: 2;
+			}
 		</style>
 	</head>
 	<body>
-		<div class="wrapper"></div>
+	<div style="padding:20px">
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+	</div>
 		<script>
 		jQuery(".wrapper").jSlider({
 			division:20,
 			step:1000,
-			infinity:false,
-			max:1000000,
-			onCreate:function(){
-				console.log(arguments)
+			$value:10,
+			infinity:true,
+			onCreate:function(_){
+				console.log(_)
 			},
 			toolTip:function(value){
 				return "The value is "+ value; 
 			},
 			onDrag:function(val){
-				console.log(val)
 			}
 		});
 
