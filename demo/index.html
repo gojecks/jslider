@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>Demo Page</title>
+		<script
+		  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+		  crossorigin="anonymous"></script>
+		 <style type="text/css">
+			.wrapper{
+				padding-top: 10px;
+				width: 200px;
+				height: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper"></div>
+		<script>
+		jQuery(".wrapper").jSlider({
+			division:20,
+			step:1000,
+			infinity:false,
+			max:1000000,
+			onCreate:function(){
+				console.log(arguments)
+			},
+			toolTip:function(value){
+				return "The value is "+ value; 
+			},
+			onDrag:function(val){
+				console.log(val)
+			}
+		});
+
+		</script>
+	</body>
+</html>
