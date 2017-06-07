@@ -6,7 +6,7 @@
 		  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
 		  crossorigin="anonymous"></script>
 		  <script src="../src/core.jslider.js"></script>
-		  <link href="../src/core.jslider.css" rel="text/stylesheet" />
+		  <link rel="stylesheet" href="../src/core.jslider.css" media="screen,handheld" type="text/css">
 		 <style type="text/css">
 			.wrapper{
 				padding-top: 10px;
@@ -54,6 +54,12 @@
 		<div class="wrapper" style="float:left;margin-right:20px"></div>
 		<div class="wrapper" style="float:left;margin-right:20px"></div>
 		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
+		<div class="wrapper" style="float:left;margin-right:20px"></div>
 	</div>
 		<script>
 		jQuery(".wrapper").jSlider({
@@ -62,7 +68,7 @@
 			$value:10,
 			infinity:true,
 			onCreate:function(_){
-				console.log(_)
+				//console.log(_)
 			},
 			toolTip:function(value){
 				return "The value is "+ value; 

@@ -1,24 +1,13 @@
-
-#rotationSliderContainer { 
+#jslider-circle{
     position: relative;
     width: 100%;
     height: 100%;
-    background: #FF7400;
     border-radius: 125px;
     margin: 0px auto;
-    cursor: default;
+    background: #000;
 }
-#rotationSlider { 
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    background: #A64B00;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 3;
-}
-#rotationSliderDegrees {
-    position: absolute;
+
+#jslider-circle-in{
     width: 95%;
     height: 95%;
     border-radius: 125px;
@@ -32,4 +21,30 @@
     -webkit-user-select: none; 
     -o-user-select: none;
     z-index: 2;
+    position: absolute;
+}
+
+#jslider-picker{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 30px;
+    margin-top: -15px;
+    width: 50%;
+    z-index: 10;
+    
+    -webkit-transform-origin: center left;
+    -moz-transform-origin: center left;
+    -ms-transform-origin: center left;
+    -o-transform-origin: center left;
+    transform-origin: center left;
+}
+
+#jslider-picker-circle{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    margin: 0 -10px 0 auto;
+    cursor: move;
 }
