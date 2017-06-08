@@ -74,30 +74,61 @@
 		}
 
 		// Snapping to one of the circle divisions.
-		if (Number.isFinite(this._options.core.divisions) && this._options.core.divisions >= 2) {
+		if (Number.isFinite(this._options.core.division) && this._options.core.division >= 2) {
 			this._options.core.value = Math.round(this._options.core.value * this._options.core.division) / this._options.core.division;
 		}
 
 		// Clamping to the defined min..max range.
-		if (Number.isFinite(this._options.core.max) && this._options.core.value > this._options.core.max) {
-			this._options.core.value = this._options.core.max;
+		if (Number.isFinite(this._options.core._max) && this._options.core.value > this._options.core._max) {
+			this._options.core.value = this._options.core._max;
 		}
 
-		if (Number.isFinite(this._options.core.min) && this._options.core.value < this._options.core.min) {
-			this._options.core.value = this._options.core.min;
+		if (Number.isFinite(this._options.core._min) && this._options.core.value < this._options.core._min) {
+			this._options.core.value = this._options.core._min;
 		}
 
 	};
 
 	slider_core_helpers.prototype.update_rotation = function(ev){
-		
+
 		this._options.$parentContainer
 		.find('div#jslider-picker')
 		.css(this.transform, 'rotate(' + (this._options.core.value * 360) + 'deg)');
 	};
 
-	slider_core_helpers.prototype.set_default_point = function(CB){
+	slider_core_helpers.prototype._max = function(){
+		// update max
+		this._options.core._max = this._getDiff(((this._options.core.max > this._options.core.$value)?this._options.core.max:this._options.core.$value));
+		this._options.core.value = this.float_or_default(this._options.core._max, null);
+		this.update_value();
+	};
 
+	slider_core_helpers.prototype._min = function(){
+		// update min
+		this._options.core._min = this._getDiff(this._options.core.min);
+		this._options.core.value = this.float_or_default(this._options.core._min, null);
+		this.update_value();
+	};
+
+	slider_core_helpers.prototype._getDiff = function(val){
+		return (val / this._options.core.step) / this._options.core.division;
+	};
+
+	slider_core_helpers.prototype._setDivision = function(){
+		var _divs = Math.round(this._options.core.max / (this._options.core._end *this._options.core.step));
+		// set division when max value is defined
+		if(this._options.core.infinity){
+			if(this._options.core.max && !this._options.core.division){
+				this._options.core.division = _divs < 20 ? 20 : _divs;
+				this._options.core.hasMaxValue = true;
+			}
+		}else{
+			this._options.core.division = this._options.core.max;	
+		}
+	}
+
+	slider_core_helpers.prototype.set_default_point = function(CB){
+		
         (CB || function(){})();
 
         return this;
@@ -150,12 +181,14 @@
 
 			var defaults = {
 				min:0,
-				max:100,
+				max:0,
 				step:0,
 				value:0,
 				division:0,
 				_end:360,
 				_start:0,
+				_min:null,
+				_max:null,
 				$value:0,
 				infinity: false,
 				onChange: function(){},
@@ -167,13 +200,8 @@
 			},
 			_options = jQuery.extend({},defaults, options);
 
-			// set division when max value is defined
 
-			if(_options.max && _options.infinity && !_options.division){
-				var _divs = Math.round(_options.max / (_options._end *_options.step));
-				_options.division = _divs < 20 ? 20 : _div;
-				_options.hasMaxValue = true;
-			}
+			
 
 
 			// append the children
@@ -192,11 +220,29 @@
 				core:_options
 			});
 
+
 			var previous_angle=null, 
 		    	previous_value=null;
 
 		    helpers
 		    	.set_default_point(function(){
+		    		helpers._setDivision();
+		    		// set the minimum trip value
+		    		if(_options.min){
+		    			helpers._min();
+		    		}
+
+		    		// set the maximum trip value
+		    		if(_options.max){
+		    			helpers._max();
+		    		}
+
+		    		/***
+						set the default rotation value
+						based on options.$value
+		    		**/
+		    		_options.value = helpers._getDiff(_options.$value);
+
 		    		helpers.trigger('onCreate', _options);
 		    	});
 			
@@ -267,11 +313,7 @@
 				if (old_actual_value !== new_actual_value) {
 					var _value;
 					// broadcast event
-					if(!_options.infinity){
-			        	_value = Math.round(helpers._stepToValue(helpers._options.deg));
-			        }else{
-			        	_value = Math.round(new_actual_value * _options.division) * _options.step;
-			        }
+			        _value = Math.round(new_actual_value * _options.division) * _options.step;
 
 			        helpers.limitValue(_value);
 			        helpers.trigger('onDrag',_options.$value);

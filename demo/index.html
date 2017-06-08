@@ -52,23 +52,17 @@
 	<body>
 	<div style="padding:20px">
 		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
 	</div>
 		<script>
 		jQuery(".wrapper").jSlider({
-			division:20,
+			division:0,
+			min:1000,
 			step:1000,
-			$value:10,
-			infinity:true,
+			$value:2000,
+			max:10000,
+			infinity:false,
 			onCreate:function(_){
-				//console.log(_)
+				console.log(_)
 			},
 			toolTip:function(value){
 				return "The value is "+ value; 
