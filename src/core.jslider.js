@@ -1,3 +1,4 @@
+(function(_){
 	function slider_core_helpers(definition)
 	{
 		this._counter = 0;
@@ -123,13 +124,34 @@
 				this._options.core.hasMaxValue = true;
 			}
 		}else{
-			this._options.core.division = this._options.core.max;	
+			this._options.core.division = this._options.core.max / this._options.core.step;	
 		}
 	}
 
 	slider_core_helpers.prototype.set_default_point = function(CB){
-		
-        (CB || function(){})();
+		this._setDivision();
+		// set the minimum trip value
+		if(this._options.core.min !== null && this._options.core.min !== 'undefined'){
+			this._min();
+		}
+
+		// set the maximum trip value
+		if(this._options.core.max){
+			this._max();
+		}
+
+		/***
+			set the default rotation value
+			based on options.$value
+		**/
+		this._options.core.value = this._getDiff(this._options.core.$value);
+
+		// update rotation
+		this.update_rotation();
+
+		// check if slider is disabled
+		this._options.core[this._options.core.disabled?'onDisabled':'onEnabled'](this._options.$parentContainer);
+        this.trigger('onCreate', this._options.core);
 
         return this;
 	};
@@ -177,9 +199,21 @@
 			var $parent = jQuery(element),
 				$container = jQuery('<div id="jslider-circle"></div>'),
 				$slider = jQuery('<div id="jslider-picker"><div id="jslider-picker-circle"></div></div>'),
-				$toolTip = jQuery('<div id="jslider-circle-in"><span class="tooltip_area"></span></div>');
+				$toolTip = jQuery('<div id="jslider-circle-in"><span class="tooltip_area"></span></div>'),
+				helpers;
+			
+			/**
+			 * check if element was initialized
+			 */
+			if($parent.data('_jslider_')){
+				$parent.data('_jslider_').redraw(options);
+				return;
+			}
 
 			var defaults = {
+				"[[Target]]":{
+					id:"_jslider_"+ +new Date
+				},
 				min:0,
 				max:0,
 				step:0,
@@ -190,27 +224,36 @@
 				_min:null,
 				_max:null,
 				$value:0,
+				disabled:false,
+				readonly:false,
 				infinity: false,
 				onChange: function(){},
 				onDrag:function(){},
 				onCreate:function(){},
 				toolTip:function(val){
 					return val;
+				},
+				redraw:function(config){
+					if(config){
+						jQuery.extend(this, config);
+						helpers.set_default_point();
+					}
+				},
+				onDisabled:function(_ele){
+					$slider.hide();
+				},
+				onEnabled:function(_ele){
+					$slider.show();
 				}
 			},
 			_options = jQuery.extend({},defaults, options);
-
-
-			
-
-
 			// append the children
 			$parent
 			.html(
 				$container.append($toolTip, $slider)
 			);
 
-			var helpers = new slider_core_helpers({
+			helpers = new slider_core_helpers({
 				sliderWidth: $slider.width(),
 				sliderHeight: $slider.height(),
 				radius:$container.width()/2,
@@ -221,30 +264,16 @@
 			});
 
 
+			/**
+			 * register our data to the element
+			 */
+			$parent.data('_jslider_', _options);
+
 			var previous_angle=null, 
 		    	previous_value=null;
 
 		    helpers
-		    	.set_default_point(function(){
-		    		helpers._setDivision();
-		    		// set the minimum trip value
-		    		if(_options.min){
-		    			helpers._min();
-		    		}
-
-		    		// set the maximum trip value
-		    		if(_options.max){
-		    			helpers._max();
-		    		}
-
-		    		/***
-						set the default rotation value
-						based on options.$value
-		    		**/
-		    		_options.value = helpers._getDiff(_options.$value);
-
-		    		helpers.trigger('onCreate', _options);
-		    	});
+		    	.set_default_point();
 			
 			/**
 			 * Bind to events to the slider
@@ -266,7 +295,7 @@
 			    .bind('touchmove.js',_rotate)
 
 			    .bind('mouseup.js',_rotateEnd)
-			    .bind('touchend.js',_rotateEnd);
+			    .bind('touchend.js',_rotateEnd)
 		    }
 
 		    function _rotateEnd(e) { 
@@ -284,7 +313,7 @@
 		    }
 
 		    function _rotate(e) {
-		    	if(!helpers._dragStart) return;
+		    	if(!helpers._dragStart || _options.disabled) return;
 
 				var new_angle = helpers.get_mouse_angle(e),
 				old_angle = previous_angle;
@@ -331,3 +360,4 @@
 			buildSlider(ele, options);
 		});
 	};
+})({});

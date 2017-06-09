@@ -48,3 +48,70 @@
     margin: 0 -10px 0 auto;
     cursor: move;
 }
+
+
+
+
+#jslider-circle {
+  background: transparent;
+  border: 1px solid #0db9f0;
+  border-right: 1px inset #1C75BC;
+  padding: 2.5%; 
+}
+#jslider-circle #jslider-circle-in {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border: 1px solid white;
+    -webkit-box-shadow: 0 5px 10px -5px #1C75BC, -5px 0 10px -5px #1C75BC;
+    box-shadow: 0 5px 10px -5px #1C75BC, -5px 0 10px -5px #1C75BC;
+    position: relative; 
+}
+#jslider-circle #jslider-circle-in .tooltip_area {
+  font-size: 13px;
+  margin: 0 auto;
+}
+#jslider-circle #jslider-circle-in .tooltip_area p {
+    font-size: 0.8rem; 
+}
+#jslider-circle #jslider-circle-in .tooltip_area span {
+    font-size: 1.24rem; 
+}
+
+#jslider-picker-circle {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -webkit-box-shadow: 1px -1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px -1px 1px rgba(0, 0, 0, 0.5);
+  height: 30px;
+  width: 30px;
+  background: #FFF;
+  border: 1px solid #ddd; 
+}
+
+#jslider-picker-circle::after {
+  content: "<>";
+  font-size: 1rem;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1rem;
+  -webkit-font-smoothing: antialiased;
+  color: #1379B2;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; 
+}
