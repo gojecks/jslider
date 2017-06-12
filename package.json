@@ -1,6 +1,6 @@
 {
   "name": "jslider",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Javascript slider written in jQuery",
   "main": "jslider.min.js",
   "files": [
