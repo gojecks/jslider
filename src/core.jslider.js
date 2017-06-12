@@ -152,7 +152,7 @@
 
 		// update rotation
 		this.update_rotation();
-
+		this.limitValue(this._options.core.$value);
 		// check if slider is disabled
 		this._options.core[this._options.core.disabled?'onDisabled':'onEnabled'](this._options.$parentContainer);
         this.trigger('onCreate', this._options.core);
