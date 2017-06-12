@@ -91,7 +91,6 @@
 	};
 
 	slider_core_helpers.prototype.update_rotation = function(ev){
-
 		this._options.$parentContainer
 		.find('div#jslider-picker')
 		.css(this.transform, 'rotate(' + (this._options.core.value * 360) + 'deg)');
@@ -140,6 +139,11 @@
 			this._max();
 		}
 
+		// check if stop is defined
+		if(this._options.core.stop){
+			this._options.core._max = this._getDiff(this._options.core.stop);
+		}
+
 		/***
 			set the default rotation value
 			based on options.$value
@@ -169,7 +173,11 @@
 			_val = (_val > this._options.core.max?this._options.core.max : _val);
 		}
 
-		 this._options.core.$value = _val
+		 this._options.core.$value = _val;
+
+		 if(this._options.core.stop){
+		 	this._options.core.$value = (_val - this._options.core.min);
+		 }
 	};
 
 
@@ -194,6 +202,17 @@
 		}
 		return this;
 	};
+
+	slider_core_helpers.prototype.stopRotate = function(){
+		/**
+			check if stop is defined
+		**/
+		if(this._options.core.hasOwnProperty('stop')){
+			return (this._options.core.stop === this._options.core.$value);
+		}
+
+		return false;
+	}
 
 		function buildSlider(element, options){
 			var $parent = jQuery(element),
