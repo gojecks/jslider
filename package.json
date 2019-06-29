@@ -1,23 +1,23 @@
 {
-  "name": "jslider",
-  "version": "0.0.5",
-  "description": "Javascript slider written in jQuery",
-  "main": "jslider.min.js",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gojecks/jslider.git"
-  },
-  "keywords": [],
-  "author": "Joseph Gojecks Kadiri",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gojecks/jslider/issues"
-  },
-  "homepage": "https://github.com/gojecks/jslider#readme"
+    "name": "jslider",
+    "version": "0.0.6",
+    "description": "Javascript slider written in jQuery",
+    "main": "jslider.min.js",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gojecks/jslider.git"
+    },
+    "keywords": [],
+    "author": "Joseph Gojecks Kadiri",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/gojecks/jslider/issues"
+    },
+    "homepage": "https://github.com/gojecks/jslider#readme"
 }
