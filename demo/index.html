@@ -1,71 +1,77 @@
 <html>
-	<head>
-		<title>Demo Page</title>
-		<script
-		  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
-		  crossorigin="anonymous"></script>
-		  <script src="../src/core.jslider.js"></script>
-		  <link rel="stylesheet" href="../src/core.jslider.css" media="screen,handheld" type="text/css">
-		 <style type="text/css">
-			.wrapper{
-				padding-top: 10px;
-				width: 200px;
-				height: 200px;
-			}
-			#rotationSliderContainer { 
-			    position: relative;
-			    width: 100%;
-			    height: 100%;
-			    background: #FF7400;
-			    border-radius: 125px;
-			    margin: 0px auto;
-			    cursor: default;
-			}
-			#rotationSlider { 
-			    position: absolute;
-			    height: 20px;
-			    width: 20px;
-			    background: #A64B00;
-			    border-radius: 10px;
-			    cursor: pointer;
-			    z-index: 3;
-			}
-			#rotationSliderDegrees {
-			    position: absolute;
-			    width: 95%;
-			    height: 95%;
-			    border-radius: 125px;
-			    background-color: #fff;
-			    margin: 2.5%;
-			    font-size: 20px;
-			    color: #000;
-			    text-align: center;
-			    -moz-user-select: none; 
-			    -khtml-user-select: none; 
-			    -webkit-user-select: none; 
-			    -o-user-select: none;
-			    z-index: 2;
-			}
-			.quarter-container{
-				width: 80vw;
-			    height: 15vh;
-			    overflow: hidden;
-			    position: relative;
-			}
-			.quarter-circle {
-				width: 600px;
-			    height: 600px;
-			    bottom: 0px;
-			    position: absolute;
-			}
-		</style>
-	</head>
-	<body>
-	<div style="padding:20px">
-		<div class="wrapper" style="float:left;margin-right:20px"></div>
 
-		<!-- <div class="quarter-container">
+<head>
+    <title>Demo Page</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <script src="../dist/jslider.js"></script>
+    <link rel="stylesheet" href="../dist/core.jslider.css" media="screen,handheld" type="text/css">
+    <style type="text/css">
+        .wrapper {
+            padding-top: 10px;
+            width: 200px;
+            height: 200px;
+        }
+        
+        #rotationSliderContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #FF7400;
+            border-radius: 125px;
+            margin: 0px auto;
+            cursor: default;
+        }
+        
+        #rotationSlider {
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            background: #A64B00;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+        
+        #rotationSliderDegrees {
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            border-radius: 125px;
+            background-color: #fff;
+            margin: 2.5%;
+            font-size: 20px;
+            color: #000;
+            text-align: center;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+            z-index: 2;
+        }
+        
+        .quarter-container {
+            width: 80vw;
+            height: 20vh;
+            margin-top: 10vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .quarter-circle {
+            width: 600px;
+            height: 600px;
+            bottom: 0px;
+            position: absolute;
+            padding-bottom: 5vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="padding:20px">
+        <div class="wrapper"></div>
+
+        <!-- <div class="quarter-container">
 			<div class="quarter-circle"></div>
 			<div class="picker-wrapper">
 				<div id="jslider-picker"><div id="jslider-picker-circle"></div></div>
@@ -73,55 +79,51 @@
 
 		</div> -->
 
-		<div class="quarter-container">
-			<div class="quarter-circle">
-			</div>
-		</div>
-	</div>
-		<script>
-		jQuery(".wrapper").jSlider({
-			division:0,
-			min:0,
-			step:500,
-			$value:2000,
-			max:10000,
-			infinity:false,
-			disabled:0,
-			stop:7000,
-			onCreate:function(_){
+        <div class="quarter-container">
+            <div class="quarter-circle">
+            </div>
+        </div>
+    </div>
+    <script>
+        jQuery(".wrapper").jSlider({
+            division: 0,
+            min: 0,
+            step: 500,
+            $value: 2000,
+            max: 10000,
+            infinity: false,
+            disabled: 0,
+            onCreate: function(_) {
 
-			},
-			toolTip:function(value){
-				return "The value is "+ value; 
-			},
-			onDrag:function(val){
-			},
-			onEnabled:function(_ele){
-				console.log(_ele);
-			}
-		});
+            },
+            toolTip: function(value) {
+                return "The value is " + value;
+            },
+            onDrag: function(val) {},
+            onEnabled: function(_ele) {
+                console.log(_ele);
+            }
+        });
 
-		jQuery(".quarter-circle").jSlider({
-			division:0,
-			step:1,
-			min:25,
-			$value:75,
-			max:240,
-			infinity:false,
-			disabled:0,
-			stop:95,
-			onCreate:function(_){
-			},
-			toolTip:function(value){
-				return "The value is "+ value; 
-			},
-			onDrag:function(val){
-				console.log(val)
-			},
-			onEnabled:function(_ele){
-			}
-		});
+        jQuery(".quarter-circle").jSlider({
+            division: 0,
+            step: 1,
+            min: 25,
+            $value: 25,
+            max: 240,
+            infinity: false,
+            disabled: 0,
+            stop: 95,
+            onCreate: function(_) {},
+            toolTip: function(value) {
+                return "The value is " + value;
+            },
+            onDrag: function(val) {
+                console.log(val)
+            },
+            onEnabled: function(_ele) {}
+        });
+    </script>
+</body>
 
-		</script>
-	</body>
 </html>
